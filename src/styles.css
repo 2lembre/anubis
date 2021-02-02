@@ -1,0 +1,33 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  filter: invert(1);
+}
+
+.anubis h1 {
+  color: #fff;
+  font-size: 3rem;
+  text-align: center;
+}
+
+.anubis-photo {
+  width: calc(100% - 33px);
+  border-radius: 33px;
+  margin: 0 auto;
+  display: block;
+  transition: .5s all;
+  cursor: crosshair;
+}
+
+.anubis-photo:hover {
+  border-radius: 100px;
+  box-shadow: 0 0 20px rgba(255,255,255, .2);
+  filter: invert(1);
+}
