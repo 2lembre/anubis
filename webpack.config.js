@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   entry: './src/index.js',
@@ -9,10 +11,6 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'docs'),
     publicPath: '/'
-  },
-  devtool: 'inline-source-map',
-  devServer: {
-    contentBase: './docs',
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -29,7 +27,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
      {
        test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -44,3 +42,17 @@ module.exports = {
     ],
   },
 };
+
+if (process.env.NODE_ENV === 'development') {
+  module.exports.mode = 'development'
+  module.exports.devtool = 'inline-source-map'
+  module.exports.devServer = { contentBase: './docs' }
+}
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports.mode = 'production'
+  module.exports.optimization = {
+    minimize: true,
+    minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin()],
+  }
+}
