@@ -51,6 +51,7 @@ if (process.env.NODE_ENV === 'development') {
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.mode = 'production'
+  module.exports.output = Object.assign(module.exports.output, { publicPath: '/anubis' })
   module.exports.optimization = {
     minimize: true,
     minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin()],
