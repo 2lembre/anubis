@@ -1,7 +1,7 @@
 import './styles.styl';
 import Icon from './assets/anubis.png';
 
-function article() {
+function articleComponent() {
   const article = document.createElement('article');
   const title = document.createElement('h1');
   const imageAnubis = new Image();
@@ -19,4 +19,4 @@ function article() {
   return article;
 }
 
-document.body.prepend(article());
+document.body.prepend(articleComponent());
