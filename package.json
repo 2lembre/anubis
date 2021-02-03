@@ -11,6 +11,7 @@
   "author": "2lembre",
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^7.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^5.0.1",
     "file-loader": "^6.2.0",
