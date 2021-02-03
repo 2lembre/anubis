@@ -60,8 +60,20 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        test: /\.styl$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: ["postcss-preset-env", "autoprefixer"]
+              },
+            },
+          },
+          'stylus-loader'
+        ],
       },
      {
        test: /\.(png|svg|jpg|jpeg|gif)$/i,
