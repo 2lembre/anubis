@@ -7,6 +7,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
 const nameApp = 'Anúbis'
+const env_prod = process.env.NODE_ENV === 'production'
 
 let htmlConfig = {
   hash: true,
@@ -18,34 +19,39 @@ let htmlConfig = {
     'author': '2lembre',
     'viewport': 'width=device-width, initial-scale=1.0',
     'application-name': nameApp,
-    'msapplication-config': process.env.NODE_ENV === 'production' ? '/anubis/browserconfig.xml' : '/browserconfig.xml',
+    'msapplication-config': env_prod ? '/anubis/browserconfig.xml' : '/browserconfig.xml',
     'msapplication-TileColor': '#000000',
     'theme-color': '#ffffff'
   }
 }
 
+function replaceAnubis (text) {
+  return text.replace(/anubis\//gi, '')
+}
+
 module.exports = {
+  mode: env_prod ? 'production' : 'development',
   entry: './src/index.js',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'docs'),
-    publicPath: '/'
+    publicPath: env_prod ? '/anubis/' : '/'
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin(process.env.NODE_ENV === 'production' ? Object.assign(htmlConfig, { pathAnubis: '/anubis' }) : htmlConfig),
+    new HtmlWebpackPlugin(env_prod ? Object.assign(htmlConfig, { pathAnubis: '/anubis' }) : htmlConfig),
     new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
     new CopyPlugin({
       patterns: [
         {
           from: "src/manifest.json",
           to: "manifest.json",
-          transform(content) { return process.env.NODE_ENV === 'production' ? content : content.toString().replace(/anubis\//gi, '') },
+          transform(content) { return env_prod ? content : replaceAnubis(content.toString()) },
         },
         {
           from: "src/browserconfig.xml",
           to: "browserconfig.xml",
-          transform(content) { return process.env.NODE_ENV === 'production' ? content : content.toString().replace(/anubis\//gi, '') },
+          transform(content) { return env_prod ? content : replaceAnubis(content.toString()) },
         },
         { from: "src/assets", to: "assets" },
       ],
@@ -71,17 +77,12 @@ module.exports = {
   },
 };
 
-if (process.env.NODE_ENV === 'development') {
-  module.exports.mode = 'development'
-  module.exports.devtool = 'inline-source-map'
-  module.exports.devServer = { contentBase: './docs' }
-}
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports.mode = 'production'
-  module.exports.output = Object.assign(module.exports.output, { publicPath: '/anubis/' })
+if (env_prod) {
   module.exports.optimization = {
     minimize: true,
     minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin()],
   }
+} else {
+  module.exports.devtool = 'inline-source-map'
+  module.exports.devServer = { contentBase: './docs' }
 }
