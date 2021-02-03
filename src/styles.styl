@@ -1,12 +1,13 @@
 html, body
   margin 0
   padding 0
+  filter invert(1)
 
 body
+  animation 25s move_ra infinite linear
   align-items center
   background url('./assets/ancient.jpg') repeat
   display flex
-  filter invert(1)
   justify-content center
   min-height 100vh
 
@@ -37,6 +38,7 @@ body
   transition .5s all
   width calc(100% - 33px)
   &:hover
+    animation none
     border-radius 100px
     box-shadow 0 0 20px rgba(255,255,255, .2)
     filter invert(1)
@@ -46,4 +48,10 @@ body
     filter invert(1)
   100%
     filter invert(0)
+
+@keyframes move_ra
+  0%
+    background-position 0 0
+  100%
+    background-position 626px 626px
 
