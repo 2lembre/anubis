@@ -67,24 +67,35 @@ module.exports = {
           {
             loader: "postcss-loader",
             options: {
-              postcssOptions: {
-                plugins: ["postcss-preset-env", "autoprefixer"]
-              },
+              postcssOptions: { plugins: ["postcss-preset-env", "autoprefixer"] },
             },
           },
           'stylus-loader'
         ],
       },
      {
-       test: /\.(png|svg|jpg|jpeg|gif)$/i,
-       use: {
-        loader: 'file-loader',
-        options: {
-          outputPath: './assets/',
-          name: '[name].[ext]',
-        }
-      },
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        use: {
+          loader: 'file-loader',
+          options: {
+            outputPath: './assets/',
+            name: '[name].[ext]',
+          }
+        },
      },
+     {
+        test: /\.js$/,
+        exclude: /node_modules|docs/,
+        use: [,
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread']
+            }
+          }
+        ]
+      },
     ],
   },
 };
