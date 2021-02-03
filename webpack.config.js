@@ -86,7 +86,7 @@ module.exports = {
      {
         test: /\.js$/,
         exclude: /node_modules|docs/,
-        use: [,
+        use: [
           {
             loader: 'babel-loader',
             options: {
@@ -107,5 +107,8 @@ if (env_prod) {
   }
 } else {
   module.exports.devtool = 'inline-source-map'
-  module.exports.devServer = { contentBase: './docs' }
+  module.exports.devServer = {
+    contentBase: './docs',
+    port: 9999
+  }
 }
