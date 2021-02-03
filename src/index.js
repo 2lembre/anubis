@@ -1,4 +1,4 @@
-import './styles.css';
+import './styles.styl';
 import Icon from './assets/anubis.png';
 
 function article() {
