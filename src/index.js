@@ -31,8 +31,10 @@ document.addEventListener('mousemove', function (e) {
   let centroY = screenHeight - e.clientY;
   let degX = centroX * 0.04;
   let degY = centroY * 0.08;
+  let degXvalue = (degX > -40 && degX < 40) ? degX : 0;
+  let degYvalue = (degY > -40 && degY < 40) ? degY : 0;
 
-  anubis.style.transform = otherProperty + 'rotateY('+ degX +'deg)  rotateX('+ degY +'deg)';
+  anubis.style.transform = otherProperty + 'rotateY('+ degXvalue +'deg)  rotateX('+ degYvalue +'deg)';
 });
 
 // O seu coração contra peso nessa "pena da verdade"
